@@ -11,6 +11,26 @@ const onSubmit = values => {
   console.log(values)
 }
 
+const validate = values => {
+  let errors = {}
+
+  if(!values.name) {
+    errors.name = 'Required'
+  }
+
+  if(!values.email) {
+    errors.email = 'Required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email format'
+  }
+
+  if(!values.channel) {
+    errors.channel = 'Required'
+  }
+
+  return errors
+}
+
 const validationSchema = Yup.object({
   name: Yup
     .string()
@@ -24,12 +44,13 @@ const validationSchema = Yup.object({
     .required('Required')
 })
 
-const YoutubeForm = () => {
+const OldYoutubeForm = () => {
 
   const formik = useFormik({
     initialValues,
     onSubmit,
     validationSchema
+    // validate
   })
 
   return ( 
@@ -41,7 +62,9 @@ const YoutubeForm = () => {
             type="text"
             id="name"
             name="name"
-            {...formik.getFieldProps('name')}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.name}
           />
           {
             formik.touched.name && formik.errors.name ? 
@@ -57,7 +80,9 @@ const YoutubeForm = () => {
             type="email"
             id="email"
             name="email"
-            {...formik.getFieldProps('email')}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
           />
           {
             formik.touched.email && formik.errors.email ? 
@@ -73,7 +98,9 @@ const YoutubeForm = () => {
             type="text"
             id="channel"
             name="channel"
-            {...formik.getFieldProps('channel')}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.channel}
           />
           {
             formik.touched.channel && formik.errors.channel ?
@@ -89,4 +116,4 @@ const YoutubeForm = () => {
   );
 }
  
-export default YoutubeForm;
+export default OldYoutubeForm;
