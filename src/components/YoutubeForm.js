@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const initialValues = {
   name: '',
@@ -30,12 +31,26 @@ const validate = values => {
   return errors
 }
 
+const validationSchema = Yup.object({
+  name: Yup
+    .string()
+    .required('Required'),
+  email: Yup
+    .string()
+    .required('Required')
+    .email('Invalid email format'),
+  channel: Yup
+    .string()
+    .required('Required')
+})
+
 const YoutubeForm = () => {
 
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validate
+    validationSchema
+    // validate
   })
 
   return ( 
@@ -53,7 +68,7 @@ const YoutubeForm = () => {
           />
           {
             formik.touched.name && formik.errors.name ? 
-            <div className="error">formik.errors.name</div>
+            <div className="error">{formik.errors.name}</div>
             :
             null
           }
@@ -71,7 +86,7 @@ const YoutubeForm = () => {
           />
           {
             formik.touched.email && formik.errors.email ? 
-            <div className="error">formik.errors.email</div>
+            <div className="error">{formik.errors.email}</div>
             :
             null
           }
@@ -89,7 +104,7 @@ const YoutubeForm = () => {
           />
           {
             formik.touched.channel && formik.errors.channel ?
-            <div className="error">formik.errors.channel</div>
+            <div className="error">{formik.errors.channel}</div>
             :
             null
           }
