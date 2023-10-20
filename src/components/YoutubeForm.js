@@ -42,6 +42,8 @@ const YoutubeForm = () => {
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
+      validateOnChange={false} // Prevent Validation to run when onChange event is triggered
+      validateOnBlur={false} // Prevent Validation to run when onBlur event is triggered
     >
       <Form>
         <div className="form-control">
@@ -138,6 +140,7 @@ const YoutubeForm = () => {
                 const { push, remove, form } = fieldArrayProps
                 const { values } = form
                 const { phNumbers } = values
+                console.log("Form errors", form.errors) // Validation run when one of the form's events are triggered
                 return (
                   <div>
                     {phNumbers.map((phNumber, index) => (
