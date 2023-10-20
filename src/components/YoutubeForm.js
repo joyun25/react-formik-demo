@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FieldArray, FastField } from 'formik';
 import * as Yup from 'yup';
 import TextError from './TextError'
 
@@ -88,9 +88,12 @@ const YoutubeForm = () => {
 
         <div className="form-control">
           <label htmlFor="address">Address</label>
-          <Field name="address">
+          <FastField name="address">
             {
               ({field, form, meta}) => {
+                console.log("Field render")
+                // <Field> runs whenever any Field element onChange
+                // <FastField> only runs whenever the Field element onChange
                 return (
                   <div>
                     <input type="text" id="address" {...field}/>
@@ -104,7 +107,7 @@ const YoutubeForm = () => {
                 )
               }
             }
-          </Field>
+          </FastField>
         </div>
 
         <div className="form-control">
@@ -132,7 +135,6 @@ const YoutubeForm = () => {
           <FieldArray name="phNumbers">
             {
               (fieldArrayProps) => {
-                console.log("fieldArrayProps", fieldArrayProps)
                 const { push, remove, form } = fieldArrayProps
                 const { values } = form
                 const { phNumbers } = values
