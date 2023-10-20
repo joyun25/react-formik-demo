@@ -36,14 +36,20 @@ const validationSchema = Yup.object({
     .required('Required')
 })
 
+const validateComments = value => {
+  let error
+  if(!value) {
+    error = "Required"
+  }
+  return error
+}
+
 const YoutubeForm = () => {
   return ( 
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
-      validateOnChange={false} // Prevent Validation to run when onChange event is triggered
-      validateOnBlur={false} // Prevent Validation to run when onBlur event is triggered
     >
       <Form>
         <div className="form-control">
@@ -85,7 +91,9 @@ const YoutubeForm = () => {
             as="textarea"
             id="comments"
             name="comments"
+            validate={validateComments}
           />
+          <ErrorMessage name="comments" component={TextError}/>
         </div>
 
         <div className="form-control">
